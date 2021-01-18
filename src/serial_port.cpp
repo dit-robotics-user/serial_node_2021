@@ -64,17 +64,23 @@ void write_callback(const std_msgs::String::ConstPtr &msg)
 
 void fromAgent_callback(const std_msgs::Int32MultiArray::ConstPtr &msg)
 {
-    for(int i = 1; i < tx_len; i++){
-		tx[i] = msg->data[i];
-	}
+    //for(int i = 1; i < tx_len; i++){
+		//tx[i] = msg->data[i];
+		//tx[i] = 0;
+	//}
+	tx[1] = msg->data[1];  // linear velocity
+    tx[2] = msg->data[2];  // angular velocity	
+    tx[3] = msg->data[3];  // X
+    tx[4] = msg->data[4];  // Y
+    tx[5] = msg->data[5];  // Theta
+    //~ tx[6] = msg->data[0];
 	tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 16);
-    //tx[0] = msg->data[0];
-    //tx[1] = msg->data[1];
-    //tx[2] = msg->data[2];
-    //tx[3] = msg->data[3];
-    //tx[4] = msg->data[0];
-    //tx[5] = msg->data[0];
-    //tx[6] = msg->data[0];
+	//~ for(int i = 0; i < tx_len; i++){
+	//printf("%d %d %d %d %d\n",tx[1],tx[2],tx[3],tx[4],tx[5]);
+				//tx[i] += 1;
+	//~ }
+    //~ tx[0] = msg->data[0];
+
     //tx[4] = modified_crc32_mpeg_2((uint8_t*)tx, 16);
 }
 
@@ -133,7 +139,7 @@ int main(int argc, char **argv)
     std_msgs::String tx_str;
     std_msgs::Int32 pi_2_ST1_rate_msg;	
 	
-	tx[0] = 10;
+	tx[0] = 0x31;
     for(int count = 1; count < tx_len; count++){
 		tx[count] = 0;
 	}
@@ -178,11 +184,18 @@ int main(int argc, char **argv)
 			   
 			}
         }
-        
+       		//nh.getParam("GG/tx1",tx[1]);
+			//nh.getParam("GG/tx2",tx[2]);
+			//nh.getParam("GG/tx3",tx[3]);
+			//nh.getParam("GG/tx4",tx[4]);
 	// serial transmit 
 	if(flag == 0){
         if (++tx_count %2 == 0) {
-            tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*tx_len);
+			//~ for(int i = 1; i < tx_len; i++){
+				//~ printf("%d\n",tx[i]);
+				//~ //tx[i] += 1;
+			//~ }
+			tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*tx_len);
             tx_str.data = ser.write((const uint8_t*)tx, 4 *tx_len + 7 );
             write_pub.publish(tx_str);
         }
