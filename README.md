@@ -1,4 +1,4 @@
-# serial_node for eurobot 2020
+# serial_node for eurobot 2021
 
 - Download dependent package :
 http://wjwwood.io/serial/
