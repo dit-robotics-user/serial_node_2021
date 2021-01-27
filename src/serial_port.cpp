@@ -34,7 +34,6 @@ int reset_count = 0;
 uint32_t modified_crc32_mpeg_2(uint8_t *data, uint8_t length){
     uint8_t i;
     int8_t j = 3;
-    //int8_t j = 0;
     uint32_t crc = 0xffffffff;  // Initial value
     int8_t l = length;
 
@@ -134,7 +133,7 @@ int main(int argc, char **argv){
         // serial transmit 
         if(flag == 0){
             if(++tx_count % 2 == 0){
-                ser.write((const uint8_t*)tx, 4 * tx_len + 7);
+                ser.write((const uint8_t*)tx, 4 * tx_len + 4);
             }
         }
 
