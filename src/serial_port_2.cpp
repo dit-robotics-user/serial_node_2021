@@ -58,7 +58,7 @@ void fromAgent_callback(const std_msgs::Int32MultiArray::ConstPtr &msg){
     for(int i = 1; i < tx_len; i++){
         tx[i] = msg->data[i-1];
     }
-    tx[0] = 0x31;//ST1:0x31,ST2:0x32
+    tx[0] = 0x32;//ST1:0x31,ST2:0x32
     tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*tx_len);
 }
 
