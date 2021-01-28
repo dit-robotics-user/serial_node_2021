@@ -19,7 +19,7 @@ serial::Serial ser; //聲明串口對象
 
 int tx_count = 0;
 int tx_len = 6;
-int32_t* tx = (int32_t *)malloc((tx_len + 2) * sizeof(int32_t));
+int32_t* tx = (int32_t *)malloc((tx_len + 1) * sizeof(int32_t));
 int rx_len = 6;
 int32_t* indata = (int32_t *)malloc((rx_len + 3) * sizeof(int32_t));
 int32_t tmp;
@@ -27,7 +27,6 @@ int32_t tmp;
 int rcv_count = 0;
 int error_count = 0;
 int success_rate = 0;
-int pi_2_ST1_rate = 0;
 int reset_count = 0;
 
 // crc only for stm
