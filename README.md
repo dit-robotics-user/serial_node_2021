@@ -11,6 +11,16 @@ http://wjwwood.io/serial/
         $ echo 'KERNEL=="ttyUSB*", KERNELS=="1-1.3", MODE:="0777", GROUP:="dialout", SYMLINK+="STM1"' >> /etc/udev/rules.d/usb.rules
         
         $ echo 'KERNEL=="ttyUSB*", KERNELS=="1-1.4", MODE:="0777", GROUP:="dialout", SYMLINK+="STM2"' >> /etc/udev/rules.d/usb.rules
+        
+        if permission error:
+            
+            $ target='KERNEL=="ttyUSB*", KERNELS=="1-1.3", MODE:="0777", GROUP:="dialout", SYMLINK+="STM1"'
+            
+            $ echo "$target" | sudo tee --append /etc/udev/rules.d/usb.rules
+            
+            $ target='KERNEL=="ttyUSB*", KERNELS=="1-1.4", MODE:="0777", GROUP:="dialout", SYMLINK+="STM2"'
+            
+            $ echo "$target" | sudo tee --append /etc/udev/rules.d/usb.rules
 
         $ sudo service udev reload
 
