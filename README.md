@@ -14,11 +14,11 @@ http://wjwwood.io/serial/
 
         $ sudo service udev reload
 
-        $ sudo servide udev restart
+        $ sudo service udev restart
 
         -> the output will tell you to enter something, just follow it. Next, you will have to enter the restart command again.
 
-        $ sudo servide udev restart
+        $ sudo service udev restart
     
     2. Unplug any USB devices and then plug them back to RPI.
 
