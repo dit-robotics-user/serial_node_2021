@@ -28,6 +28,7 @@ int rcv_count = 0;
 int error_count = 0;
 int success_rate = 0;
 int reset_count = 0;
+bool flag;
 
 // crc only for stm
 uint32_t modified_crc32_mpeg_2(uint8_t *data, uint8_t length){
@@ -60,6 +61,14 @@ void fromAgent_callback(const std_msgs::Int32MultiArray::ConstPtr &msg){
     }
     tx[0] = 0x31;//ST1:0x31,ST2:0x32
     tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*tx_len);
+    // serial transmit 
+    if(ros::ok()){
+	if(flag == 0){
+	    if(++tx_count % 2 == 0){
+		ser.write((const uint8_t*)tx, 4 * tx_len + 4);
+            }
+	}
+    }
 }
 
 int main(int argc, char **argv){
@@ -98,7 +107,6 @@ int main(int argc, char **argv){
     std_msgs::String tx_str;
 
     while(ros::ok()){
-        bool flag;
         if(ser.available()>=4*(rx_len+2+1)){
             test = ser.readline(4*(rx_len+2+1), ">?");
             rx_msg.data.clear();
@@ -128,14 +136,6 @@ int main(int argc, char **argv){
                 error_count = 0;
             }
         }
-
-        // serial transmit 
-        if(flag == 0){
-            if(++tx_count % 2 == 0){
-                ser.write((const uint8_t*)tx, 4 * tx_len + 4);
-            }
-        }
-
         ros::spinOnce();
         loop_rate.sleep();
     }
