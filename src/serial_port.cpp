@@ -17,10 +17,15 @@ using namespace std;
 
 serial::Serial ser; //聲明串口對象
 
+int real_rx_len = 5;
+int real_tx_len = 5;
+
+int rx_len = real_rx_len + 1;
+int tx_len = real_tx_len + 1;
+
 int tx_count = 0;
-int tx_len = 6;
 int32_t* tx = (int32_t *)malloc((tx_len + 1) * sizeof(int32_t));
-int rx_len = 6;
+
 int32_t* indata = (int32_t *)malloc((rx_len + 3) * sizeof(int32_t));
 int32_t tmp;
 	
@@ -60,7 +65,7 @@ void fromAgent_callback(const std_msgs::Int32MultiArray::ConstPtr &msg){
         tx[i] = msg->data[i-1];
     }
     tx[0] = 0x31;//ST1:0x31,ST2:0x32
-    tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*tx_len);
+    tx[tx_len] = modified_crc32_mpeg_2((uint8_t*)tx, 4*(tx_len));
     // serial transmit 
     if(ros::ok()){
 	if(flag == 0){
